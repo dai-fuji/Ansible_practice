@@ -1,4 +1,4 @@
 - hosts: ansible
   roles:
     - general
-    - yarn
+    - node_yarn

@@ -1,0 +1,26 @@
+- name: check if nodejs already installed
+  stat:
+    path: /usrbin/node
+  register: nodejs_bin
+
+- name: add repository for nodejs
+  shell: |
+    curl -sL https://rpm.nodesource.com/setup_10.x | bash -
+  when: not nodejs_bin.stat.exists
+  become: yes
+
+- name: install nodejs
+  yum:
+    name: nodejs
+    state:  installed
+  become: yes
+  when: not nodejs_bin.stat.exists
+
+- name: install yarn
+  npm:
+    name: yarn
+    state: present
+    global: yes
+  become: yes
+  when: not nodejs_bin.stat.exists
+

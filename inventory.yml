@@ -1,3 +1,3 @@
 [host]
-ec2
+ansible
 # .ssh/configに記述したホスト名を追加

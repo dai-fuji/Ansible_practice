@@ -1,3 +1,4 @@
-- hosts: ec2
+- hosts: ansible
   roles:
     - general
+    - yarn

@@ -1,0 +1,70 @@
+#---------------------------
+# check status
+#---------------------------
+- name: check was rbenv already installed
+  shell: |
+    /home/ec2-user/.rbenv/bin/rbenv version
+  register: has_rbenv
+  changed_when: False
+  ignore_errors: yes
+
+- name: check was ruby-build already installed
+  shell: |
+    ruby-build version
+  register: has_ruby_build
+  changed_when: False
+  ignore_errors: yes
+
+
+- name: check was ruby-version already installed
+  shell: |
+    /home/ec2-user/.rbenv/bin/rbenv version | grep 2.6.3
+  register: has_ruby_version
+  changed_when: False
+  ignore_errors: yes
+
+
+# ignore_errors = 対象のタスクでエラーが発生しても次のタスクに進むことができる
+# changed_when = 実行結果のステータスを変更することができる。（shellを使用するとchangedになる、分かりづらいのでFalseにしてchangedとさせない）
+
+#---------------------------
+# install
+#---------------------------
+- name: install rbenv
+  git:
+    repo: https://github.com/sstephenson/rbenv.git
+    dest: /home/ec2-user/.rbenv
+  when: has_rbenv is failed
+
+- name: install ruby-build
+  git:
+    repo: https://github.com/sstephenson/ruby-build.git
+    dest: /home/ec2-user/.rbenv/plugins/ruby-build
+  when: has_ruby_build is failed
+
+- name: register path and update bash
+  shell:  |
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+    echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+    echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+    source /home/ec2-user/.bash_profile
+    rbenv rehash
+  when: has_rbenv
+
+- name: ruby install and set global
+  shell:  |
+    /home/ec2-user/.rbenv/bin/rbenv install 2.6.3
+    /home/ec2-user/.rbenv/bin/rbenv global 2.6.3
+    /home/ec2-user/.rbenv/bin/rbenv rehash
+  when: has_ruby_version is failed
+
+
+
+
+
+
+
+
+
+
+

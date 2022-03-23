@@ -15,7 +15,6 @@
   changed_when: False
   ignore_errors: yes
 
-
 - name: check was ruby-version already installed
   shell: |
     /home/ec2-user/.rbenv/bin/rbenv version | grep 2.6.3
@@ -49,7 +48,7 @@
     echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
     source /home/ec2-user/.bash_profile
     rbenv rehash
-  when: has_rbenv
+  when: has_rbenv is failed
 
 - name: ruby install and set global
   shell:  |

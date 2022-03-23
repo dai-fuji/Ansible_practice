@@ -2,3 +2,4 @@
   roles:
     - general
     - node_yarn
+    - ruby

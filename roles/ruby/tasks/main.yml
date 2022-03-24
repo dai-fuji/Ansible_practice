@@ -10,7 +10,7 @@
 
 - name: check was ruby-build already installed
   shell: |
-    /home/ec2-user/.rbenv/plugins/ruby-build/bin/ruby-build version
+    /home/ec2-user/.rbenv/plugins/ruby-build/bin/ruby-build --version
   register: has_ruby_build
   changed_when: False
   ignore_errors: yes

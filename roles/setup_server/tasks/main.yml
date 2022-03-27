@@ -1,4 +1,21 @@
 #---------------------------
+# check status
+#---------------------------
+- name: is running unicorn
+  shell:  |
+    ps aux | grep unicorn | grep -v grep
+  register: is_running_unicorn
+  changed_when: False
+  ignore_errors: yes
+
+- name: is running nginx
+  shell:  |
+    ps aux | grep nginx | grep -v grep
+  register: is_running_nginx
+  changed_when: False
+  ignore_errors: yes
+
+#---------------------------
 # provide setting files
 #---------------------------
 - name: provide database.yml
@@ -43,3 +60,21 @@
   notify: 
     - restart nginx
   become: yes
+
+#---------------------------
+# start services
+#---------------------------
+- name: start unicorn
+  shell: bash -lc "rake unicorn:start"
+  # shell: |
+  #   ~/.rbenv/shims/rake unicorn:start
+  args:
+    chdir: /var/www/rails_app
+  when: is_running_unicorn is failed
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+  become: yes
+  when: is_running_nginx is failed

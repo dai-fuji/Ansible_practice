@@ -50,21 +50,18 @@
     rbenv rehash
   when: has_rbenv is failed
 
-- name: ruby install and set global
-  shell:  |
-    /home/ec2-user/.rbenv/bin/rbenv install 2.6.3
-    /home/ec2-user/.rbenv/bin/rbenv global 2.6.3
-    /home/ec2-user/.rbenv/bin/rbenv rehash
-    /home/ec2-user/.rbenv/shims/ruby -v
+# - name: ruby install and set global
+#   shell:  |
+#     /home/ec2-user/.rbenv/bin/rbenv install 2.6.3
+#     /home/ec2-user/.rbenv/bin/rbenv global 2.6.3
+#     /home/ec2-user/.rbenv/bin/rbenv rehash
+#     /home/ec2-user/.rbenv/shims/ruby -v
+#   when: has_ruby_version is failed
+
+- name: ruby install
+  shell:  bash -lc "rbenv install 2.6.3"
   when: has_ruby_version is failed
 
-
-
-
-
-
-
-
-
-
-
+- name: ruby set global
+  shell:  bash -lc "rbenv global 2.6.3"
+  when: has_ruby_version is failed

@@ -5,7 +5,7 @@
 
 - name: add repository for nodejs
   shell: |
-    curl -sL https://rpm.nodesource.com/setup_10.x | bash -
+    curl -sL https://rpm.nodesource.com/setup_16.x | bash -
   when: not nodejs_bin.stat.exists
   become: yes
 

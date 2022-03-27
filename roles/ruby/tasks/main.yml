@@ -55,6 +55,7 @@
     /home/ec2-user/.rbenv/bin/rbenv install 2.6.3
     /home/ec2-user/.rbenv/bin/rbenv global 2.6.3
     /home/ec2-user/.rbenv/bin/rbenv rehash
+    /home/ec2-user/.rbenv/shims/ruby -v
   when: has_ruby_version is failed
 
 

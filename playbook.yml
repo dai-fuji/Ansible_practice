@@ -5,3 +5,4 @@
     - ruby
     - rails
     - nginx
+    - setup_server

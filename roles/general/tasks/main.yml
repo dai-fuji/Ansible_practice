@@ -1,3 +1,7 @@
+- name: facts
+  debug:      
+    msg: "{{ ansible_facts }}" 
+
 - name: yum update
   yum:
     name: '*'

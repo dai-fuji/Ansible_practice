@@ -1,9 +1,9 @@
 $worker = 2
 $timeout = 30
-$app_root = '/var/www/rails_app/'
-$listen = '/var/www/rails_app/tmp/sockets/unicorn.sock'
-$pid = '/var/www/rails_app/tmp/pids/unicorn.pid'
-$std_log = '/var/www/rails_app/log/unicorn.log'
+$app_root = '{{ app_root_dir }}/'
+$listen = '{{ app_root_dir }}/tmp/sockets/unicorn.sock'
+$pid = '{{ app_root_dir }}/tmp/pids/unicorn.pid'
+$std_log = '{{ app_root_dir }}/log/unicorn.log'
 
 puts $app_root
 puts $listen

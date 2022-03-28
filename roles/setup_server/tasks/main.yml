@@ -2,15 +2,13 @@
 # check status
 #---------------------------
 - name: is running unicorn
-  shell:  |
-    ps aux | grep unicorn | grep -v grep
+  shell:  bash -lc "ps aux | grep unicorn | grep -v grep"
   register: is_running_unicorn
   changed_when: False
   ignore_errors: yes
 
 - name: is running nginx
-  shell:  |
-    ps aux | grep nginx | grep -v grep
+  shell:  bash -lc "ps aux | grep nginx | grep -v grep"
   register: is_running_nginx
   changed_when: False
   ignore_errors: yes
@@ -21,7 +19,7 @@
 - name: provide database.yml
   template:
     src: roles/setup_server/templete/database.yml.j2
-    dest: /var/www/rails_app/config/database.yml
+    dest: "{{ app_root_dir }}/config/database.yml"
     owner: ec2-user
     group: ec2-user
     mode: 0664
@@ -29,7 +27,7 @@
 - name: provide unicorn.rb
   template:
     src: roles/setup_server/templete/unicorn.rb.j2
-    dest: /var/www/rails_app/config/unicorn.rb
+    dest: "{{ app_root_dir }}/config/unicorn.rb"
     owner: ec2-user
     group: ec2-user
     mode: 0664
@@ -37,14 +35,14 @@
 - name: provide unicorn.rake
   template:
     src: roles/setup_server/templete/unicorn.rake.j2
-    dest: /var/www/rails_app/lib/tasks/unicorn.rake
+    dest: "{{ app_root_dir }}/lib/tasks/unicorn.rake"
     owner: ec2-user
     group: ec2-user
     mode: 0664
 
 - name: create dir for unicorn.sock
   file:
-    path: /var/www/rails_app/tmp/sockets
+    path: "{{ app_root_dir }}/tmp/sockets"
     state: directory
     owner: ec2-user
     group: ec2-user
@@ -66,10 +64,8 @@
 #---------------------------
 - name: start unicorn
   shell: bash -lc "rake unicorn:start"
-  # shell: |
-  #   ~/.rbenv/shims/rake unicorn:start
   args:
-    chdir: /var/www/rails_app
+    chdir: "{{ app_root_dir }}"
   when: is_running_unicorn is failed
 
 - name: start nginx

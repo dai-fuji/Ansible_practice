@@ -1,4 +1,4 @@
-- hosts: ansible
+- hosts: all
   
   vars: 
     home_dir: /home/ec2-user
